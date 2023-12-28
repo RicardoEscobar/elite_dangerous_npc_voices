@@ -314,3 +314,9 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,linux,macos,python,venv,virtualenv,visualstudiocode,text,microsoftoffice
+
+# Voices
+audio/
+
+# Logs
+logs/
