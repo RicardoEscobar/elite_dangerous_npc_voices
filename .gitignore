@@ -320,3 +320,6 @@ audio/
 
 # Logs
 logs/
+
+# JSON
+*.json
