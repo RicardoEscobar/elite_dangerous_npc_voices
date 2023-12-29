@@ -89,8 +89,11 @@ def get_filename(filename: str) -> str:
     """Get the filename for a voice line."""
     # clean the filename from illegal characters
     illegal_characters = ["\\", "/", ":", "*", "?", '"', "<", ">", "|"]
-    for character in illegal_characters:
-        filename = filename.replace(character, "")
+    if filename is not None:
+        for character in illegal_characters:
+            filename = filename.replace(character, "")
+    else:
+        print("El nombre del archivo es None.")
     return filename
 
 
