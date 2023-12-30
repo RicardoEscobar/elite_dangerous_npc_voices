@@ -101,21 +101,32 @@ def get_voice_line_path(voice_line: dict, dir_path: Path) -> Path:
     """Get the path for a voice line."""
     audio_file_extension = ".mp3"
     # Get the voice line filename
-    voice_line_filename = get_filename(voice_line.get("Message_Localised")) + audio_file_extension
+    voice_line_filename = get_filename(voice_line.get("Message_Localised"))
+    if voice_line_filename is None:
+        print("El nombre del archivo de la línea de voz es None.")
+        voice_line_filename = ""  # or some default filename
+    voice_line_filename += audio_file_extension
     # Return the path
     return dir_path / voice_line_filename
 
 def generate_voice_line_audio_file(voice: Voice, line: str, voice_line_filepath: Path):
     """Generate a voice line audio file."""
+    audio = None  # Initialize audio with a default value
     if not voice_line_filepath.exists():
-        audio = generate(text=line, voice=voice, model="eleven_turbo_v2")
-        save(audio, str(voice_line_filepath))
+        if isinstance(line, str):
+            audio = generate(text=line, voice=voice, model="eleven_turbo_v2")
+            save(audio, str(voice_line_filepath))
+        else:
+            print("La línea no es una cadena.")
     else:
         with open(voice_line_filepath, "rb") as f:
             audio = f.read()
         print(f"File {voice_line_filepath} already exists")
-    play(audio)
-    print(f"Playing {voice_line_filepath}")
+    if audio is not None:
+        play(audio)
+        print(f"Playing {voice_line_filepath}")
+    else:
+        print("No audio to play.")
 
 def main():
     """Main function."""
